@@ -26,6 +26,21 @@ const DrinkList = props => {
     fetchData()
   }, [])
 
+  const handleDeleteComment = id => {
+    axios.delete('/api/commentaire_boissons/' + id)
+      .then((res) => {
+        setDrink({
+          ...drink,
+          commentaires: drink.commentaires.filter(
+            commentaire => {
+              return commentaire.id !== id
+            }
+          )
+        })
+      }, (err) => {
+        console.log('Drink delete error: ' + err)
+      })
+  }
 
   const handleAddComment = e => {
     e.preventDefault()
@@ -33,7 +48,7 @@ const DrinkList = props => {
       titre: title,
       message: msg
     }).then((res) => {
-      console.log(res)
+      console.error(res.data)
       drink.commentaires.push(res.data)
       setDrink(drink)
       setTitle('')
@@ -89,7 +104,7 @@ const DrinkList = props => {
         ) : (
           <>
             {drink && drink.commentaires.map(comment => (
-              <Comment key={comment.id} comment={comment} login={props.login}/>
+              <Comment key={comment.id} comment={comment} login={props.login} handleDeleteComment={handleDeleteComment}/>
             ))}
           </>
         )}

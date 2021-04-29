@@ -29,7 +29,7 @@ const WorkshopDetails = props => {
   }
 
   const handleDeleteComment = id => {
-    axios.delete('api/commentaire_ateliers/' + id)
+    axios.delete('/api/commentaire_ateliers/' + id)
       .then((res) => {
         setWorkshop({
           ...workshop,
